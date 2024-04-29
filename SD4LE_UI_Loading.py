@@ -19,10 +19,11 @@ from PySide2.QtWidgets import (
     QLabel,
     QLineEdit,
     QPushButton,
-    QGraphicsDropShadowEffect
+    QGraphicsDropShadowEffect, 
 )
 from PySide2.QtCore import Qt, QSize, QEvent
 from PySide2.QtGui import QIcon, QFontDatabase, QFont, QKeyEvent
+from PySide2.QtSvg import QSvgWidget
 
 from src.src import *
 
@@ -68,23 +69,21 @@ class StyleSheets(Enum):
 
 
 
-class AlertUI(QDialog): 
+class LoadingUI(QDialog): 
     def __init__(self): 
         super().__init__()
 
-        self.alertUI()
-
-        # --- End of __init__()
+        self.loadingUI()
 
 
 
-    def alertUI(self): 
+    def loadingUI(self): 
         # Basic part
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
         self.setFixedSize(371, 250)
-        self.setWindowTitle("SD4LE_Alert")
+        self.setWindowTitle("SD4LE_Loading")
         icon_path = os_path.join(os_path.dirname(__file__), "SD4LE.ico")
         if os_path.isfile(icon_path): 
             self.setWindowIcon(QIcon(icon_path))
@@ -92,7 +91,7 @@ class AlertUI(QDialog):
         if os_path.isfile(font_path): 
             QFontDatabase.addApplicationFont(font_path)
 
-        
+
         # Body part
         self.body_FRM = QFrame(self)
         self.body_FRM.setGeometry(10, 10, 351, 230)
@@ -112,26 +111,24 @@ class AlertUI(QDialog):
         self.title_LB.setGeometry(90, 13, 170, 20)
         self.title_LB.setStyleSheet("""
             QLabel{
-                image: url(:/src/error_title.png);
+                image: url(:/src/loading_title.png);
             }
         """)
 
+        svg_path = os_path.join(os_path.dirname(__file__), "src/loading.svg")
+        if os_path.isfile(svg_path): 
+            self.loading_SVG = QSvgWidget(svg_path, self.body_FRM)
+            self.loading_SVG.setGeometry(136, 70, 80, 80)
+        
         self.description_LB = QLabel(self.body_FRM)
-        self.description_LB.setGeometry(71, 71, 210, 100)
+        self.description_LB.setGeometry(71, 150, 210, 40)
         self.description_LB.setFont(QFont("나눔고딕OTF", 12, QFont.Bold))
         self.description_LB.setStyleSheet(StyleSheets.label.value)
-        self.description_LB.setText("ID, PW가 모두 입력되었는지\n확인해 주십시오.")
+        self.description_LB.setText("작업 진행 중")
         self.description_LB.setAlignment(Qt.AlignCenter)
 
-        self.ok_BT = QPushButton(self.body_FRM)
-        self.ok_BT.setGeometry(96, 199, 160, 24)
-        self.ok_BT.setFont(QFont("나눔고딕OTF", 9, QFont.Bold))
-        self.ok_BT.setStyleSheet(StyleSheets.push_button.value)
-        self.ok_BT.setText("확인")
-        self.ok_BT.setFocusPolicy(Qt.NoFocus)
 
 
-    
     def setCenterPoint(self, event): 
         self.centerPoint = event.globalPos()
 
@@ -151,6 +148,6 @@ class AlertUI(QDialog):
 
 if __name__ == "__main__": 
     app = QApplication(sys.argv)
-    alertUI = AlertUI()
-    alertUI.show()
+    loadingUI = LoadingUI()
+    loadingUI.show()
     sys.exit(app.exec_())

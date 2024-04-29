@@ -1,9 +1,9 @@
 """
 SD4LE, Sandevistan for labsafety education
 
-ver 0.0.1
+ver 0.0.2
 
-~ Sun, Apr 28, 2024 ~
+~ Mon, Apr 29, 2024 ~
 """
 
 #* ------------------------------------------------------------ *#
@@ -12,7 +12,14 @@ import sys
 from enum import Enum
 from os import path as os_path
 
-from PySide2.QtWidgets import QApplication, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton
+from PySide2.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QFrame,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+)
 from PySide2.QtCore import Qt, QSize, QEvent
 from PySide2.QtGui import QIcon, QFontDatabase, QFont
 
