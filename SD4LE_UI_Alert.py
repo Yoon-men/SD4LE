@@ -73,6 +73,7 @@ class AlertUI(QDialog):
         super().__init__()
 
         self.alertUI()
+        self.signal()
 
         # --- End of __init__()
 
@@ -139,11 +140,15 @@ class AlertUI(QDialog):
         if event.buttons() == Qt.LeftButton: 
             self.move(self.pos() + event.globalPos() - self.centerPoint)
             self.centerPoint = event.globalPos()
-    
 
 
     def keyPressEvent(self, event): 
         if event.key() == Qt.Key_Escape: pass
+    
+
+
+    def signal(self) -> None: 
+        self.ok_BT.clicked.connect(self.close)
 
 
 
