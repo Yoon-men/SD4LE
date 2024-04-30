@@ -1,9 +1,9 @@
 """
 SD4LE, Sandevistan for labsafety education
 
-ver 0.0.2
+ver 0.0.3
 
-~ Mon, Apr 29, 2024 ~
+~ Tue, Apr 30, 2024 ~
 """
 
 #* ------------------------------------------------------------ *#
@@ -17,12 +17,10 @@ from PySide2.QtWidgets import (
     QDialog,
     QFrame,
     QLabel,
-    QLineEdit,
-    QPushButton,
     QGraphicsDropShadowEffect, 
 )
-from PySide2.QtCore import Qt, QSize, QEvent
-from PySide2.QtGui import QIcon, QFontDatabase, QFont, QKeyEvent
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QIcon, QFontDatabase, QFont
 from PySide2.QtSvg import QSvgWidget
 
 from src.src import *
