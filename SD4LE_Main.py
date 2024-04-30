@@ -65,7 +65,7 @@ class Main(QObject) :
 
         ## Sandevistan Operating Thread
         operatingThread.show_loading_window_signal.connect(loadingUI.exec_)
-        operatingThread.error_occured_signal.connect(self.alert)
+        operatingThread.alert_occured_signal.connect(self.alert)
         operatingThread.close_loading_window_signal.connect(loadingUI.close)
 
         
@@ -95,7 +95,7 @@ class Main(QObject) :
 
 class OperatingThread(QObject): 
     show_loading_window_signal = Signal()
-    error_occured_signal = Signal(str)
+    alert_occured_signal = Signal(str)
     close_loading_window_signal = Signal()
 
     def operate(self) -> int: 
@@ -103,7 +103,7 @@ class OperatingThread(QObject):
         self.show_loading_window_signal.emit()
 
         if (mainUI.userID_LE.text() == '') or (mainUI.userPW_LE.text() == ''): 
-            self.error_occured_signal.emit("ID, PW가 모두 입력되었는지\n확인해 주세요.")
+            self.alert_occured_signal.emit("ID, PW가 모두 입력되었는지\n확인해 주세요.")
             logger.warning("STOP : 산데비스탄 가동 중지(사용자 계정 정보 미입력)")
             return 1
         
@@ -125,7 +125,7 @@ class OperatingThread(QObject):
             logger.error("STOP : 산데비스탄 가동 중지(this_fffire)")
             return 1
         if sandevistan.whos_ready_for_tomorrow(mainUI.userID_LE.text(), mainUI.userPW_LE.text()): 
-            self.error_occured_signal.emit("잘못된 계정 정보입니다.\nID와 PW를 다시 확인해 주세요.")
+            self.alert_occured_signal.emit("잘못된 계정 정보입니다.\nID와 PW를 다시 확인해 주세요.")
             logger.warning("STOP : 산데비스탄 가동 중지(whos_ready_for_tomorrow)")
             return 1
         if sandevistan.friday_night_fire_fight(): 
@@ -141,6 +141,7 @@ class OperatingThread(QObject):
 
         self.close_loading_window_signal.emit()
         logger.info("E N D: 산데비스탄 완료")
+        self.alert_occured_signal.emit("작업을 완료했습니다.")
 
         # --- End of operate() --- #
 
