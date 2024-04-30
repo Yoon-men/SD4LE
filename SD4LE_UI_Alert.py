@@ -112,7 +112,7 @@ class AlertUI(QDialog):
         self.title_LB.setGeometry(90, 13, 170, 20)
         self.title_LB.setStyleSheet("""
             QLabel{
-                image: url(:/src/error_title.png);
+                image: url(:/src/alert_title.png);
             }
         """)
 
