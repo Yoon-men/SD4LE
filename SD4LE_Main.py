@@ -1,7 +1,7 @@
 """
 SD4LE, Sandevistan for labsafety education
 
-ver 0.0.3
+ver 1.0.0
 
 ~ Tue, Apr 30, 2024 ~
 """
@@ -27,8 +27,10 @@ from SD4LE_UI_Alert import AlertUI
 from SD4LE_UI_Loading import LoadingUI
 from SD4LE_Logger import *
 from SD4LE_KeyFn import Sandevistan
+from SD4LE_Encryption import *
 
 #* ------------------------------------------------------------ *#
+
 
 class Main(QObject) : 
     def __init__(self, app: QApplication): 
@@ -107,6 +109,11 @@ class OperatingThread(QObject):
             logger.warning("STOP : 산데비스탄 가동 중지(사용자 계정 정보 미입력)")
             return 1
         
+        if not mainUI.userID_LE.text() in load_and_decryption().split('\n'): 
+            self.alert_occured_signal.emit("프로그램 사용 권한이 없습니다.\n개발자에게 문의하세요.")
+            logger.warning("STOP : 산데비스탄 가동 중지(사용 권한 미보유)")
+            return 1
+        
         chrome_options = Options()
         chrome_options.add_argument("start-maximized")
         chrome_options.add_argument(f"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{get_chrome_version()} Safari/537.36")
@@ -154,7 +161,7 @@ def launch() -> None :
     global logger
     logger = init_logger(
         name="Sandevistan for labsafety education", 
-        version="0.0.3", 
+        version="1.0.0", 
         c_level=DEBUG, 
         f_level=INFO,
         f_path="./SD4LE_log"
