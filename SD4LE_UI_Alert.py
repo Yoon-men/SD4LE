@@ -1,9 +1,9 @@
 """
 SD4LE, Sandevistan for labsafety education
 
-ver 1.0.0
+ver 1.1.0
 
-~ Tue, Apr 30, 2024 ~
+~ Thu, May 2, 2024 ~
 """
 
 #* ------------------------------------------------------------ *#
@@ -11,6 +11,7 @@ ver 1.0.0
 import sys
 from enum import Enum
 from os import path as os_path
+from webbrowser import open as open_webbrowser
 
 from PySide2.QtWidgets import (
     QApplication,
@@ -74,7 +75,7 @@ class AlertUI(QDialog):
         self.alertUI()
         self.signal()
 
-        # --- End of __init__()
+        # --- End of __init__() --- #
 
 
 
@@ -117,7 +118,7 @@ class AlertUI(QDialog):
         """)
 
         self.description_LB = QLabel(self.body_FRM)
-        self.description_LB.setGeometry(71, 71, 210, 100)
+        self.description_LB.setGeometry(26, 71, 300, 100)
         self.description_LB.setFont(QFont("나눔고딕OTF", 12, QFont.Bold))
         self.description_LB.setStyleSheet(StyleSheets.label.value)
         self.description_LB.setText("ID, PW가 모두 입력되었는지\n확인해 주십시오.")
@@ -130,24 +131,50 @@ class AlertUI(QDialog):
         self.ok_BT.setText("확인")
         self.ok_BT.setFocusPolicy(Qt.NoFocus)
 
+        self.github_ok_BT = QPushButton(self.body_FRM)
+        self.github_ok_BT.setGeometry(96, 199, 160, 24)
+        self.github_ok_BT.setFont(QFont("나눔고딕OTF", 9, QFont.Bold))
+        self.github_ok_BT.setStyleSheet(StyleSheets.push_button.value)
+        self.github_ok_BT.setText("확인")
+        self.github_ok_BT.setFocusPolicy(Qt.NoFocus)
+        self.github_ok_BT.hide()
 
-    
+        # --- End of alertUI() --- #
+
+
+
     def setCenterPoint(self, event): 
         self.centerPoint = event.globalPos()
+
+        # --- End of setCenterPoint() --- #
+
 
     def moveWindow(self, event): 
         if event.buttons() == Qt.LeftButton: 
             self.move(self.pos() + event.globalPos() - self.centerPoint)
             self.centerPoint = event.globalPos()
+        
+        # --- End of moveWindow() --- #
+
 
 
     def keyPressEvent(self, event): 
         if event.key() == Qt.Key_Escape: pass
-    
+
+        # --- End of keyPressEvent() --- #
+
 
 
     def signal(self) -> None: 
         self.ok_BT.clicked.connect(self.close)
+
+        self.github_ok_BT.clicked.connect(lambda: open_webbrowser("https://github.com/Yoon-men/SD4LE"))
+        self.github_ok_BT.clicked.connect(self.github_ok_BT.hide)
+        self.github_ok_BT.clicked.connect(self.close)
+
+        # --- End of signal() --- #
+    
+    ## --- End of AlertUI() --- ##
 
 
 
