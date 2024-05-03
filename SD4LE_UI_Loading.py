@@ -1,9 +1,9 @@
 """
 SD4LE, Sandevistan for labsafety education
 
-ver 1.0.0
+ver 1.1.0
 
-~ Tue, Apr 30, 2024 ~
+~ Thu, May 2, 2024 ~
 """
 
 #* ------------------------------------------------------------ *#
@@ -73,6 +73,8 @@ class LoadingUI(QDialog):
 
         self.loadingUI()
 
+        # --- End of __init__() --- #
+
 
 
     def loadingUI(self): 
@@ -125,20 +127,31 @@ class LoadingUI(QDialog):
         self.description_LB.setText("작업 진행 중")
         self.description_LB.setAlignment(Qt.AlignCenter)
 
+        # --- End of loadingUI() --- #
+
 
 
     def setCenterPoint(self, event): 
         self.centerPoint = event.globalPos()
 
+        # --- End of setCenterPoint() --- #
+
+
     def moveWindow(self, event): 
         if event.buttons() == Qt.LeftButton: 
             self.move(self.pos() + event.globalPos() - self.centerPoint)
             self.centerPoint = event.globalPos()
-    
+
+        # --- End of moveWindow() --- #
+
 
 
     def keyPressEvent(self, event): 
         if event.key() == Qt.Key_Escape: pass
+
+        # --- End of keyPressEvent() --- #
+    
+    ## --- End of LoadingUI() --- ##
 
 
 
