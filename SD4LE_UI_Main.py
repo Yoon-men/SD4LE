@@ -1,9 +1,9 @@
 """
 SD4LE, Sandevistan for labsafety education
 
-ver 1.0.0
+ver 1.1.0
 
-~ Mon, Apr 30, 2024 ~
+~ Thu, May 2, 2024 ~
 """
 
 #* ------------------------------------------------------------ *#
@@ -24,6 +24,7 @@ from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon, QFontDatabase, QFont
 
 from src.src import *
+from SD4LE_DPI_Getter import get_dpi, dpi_to_percent
 
 #* ------------------------------------------------------------ *#
 
@@ -137,6 +138,8 @@ class MainUI(QMainWindow):
     def __init__(self) -> None: 
         super().__init__()
 
+        self.dpi_percent = dpi_to_percent(get_dpi())
+
         self.mainUI()
         self.signal()
 
@@ -166,20 +169,30 @@ class MainUI(QMainWindow):
         self.body_FRM.setStyleSheet(StyleSheets.body_frame.value)
 
         self.howToUse1_LB = QLabel(self.body_FRM)
-        self.howToUse1_LB.setGeometry(40, 34, 122, 34)
+        if self.dpi_percent <= 100: 
+            self.howToUse1_LB.setGeometry(40, 34, 122, 34)
+        else: 
+            self.howToUse1_LB.setGeometry(40, 34, 143, 37)
         self.howToUse1_LB.setFont(QFont("나눔고딕OTF", 23, QFont.Bold))
         self.howToUse1_LB.setStyleSheet(StyleSheets.bold_text.value)
         self.howToUse1_LB.setText("이용안내")
 
         self.howToUse2_LB = QLabel(self.body_FRM)
-        self.howToUse2_LB.setGeometry(168, 34, 10, 34)
+        if self.dpi_percent <= 100: 
+            self.howToUse2_LB.setGeometry(168, 34, 10, 34)
+        else: 
+            self.howToUse2_LB.setGeometry(190, 34, 10, 34)
         self.howToUse2_LB.setFont(QFont("나눔고딕OTF", 23))
         self.howToUse2_LB.setStyleSheet(StyleSheets.stick_text.value)
         self.howToUse2_LB.setText("|")
 
         self.howToUse3_LB = QLabel(self.body_FRM)
-        self.howToUse3_LB.setGeometry(186, 35, 470, 30)
-        self.howToUse3_LB.setFont(QFont("굴림체", 10))
+        if self.dpi_percent <= 100: 
+            self.howToUse3_LB.setGeometry(186, 35, 470, 30)
+            self.howToUse3_LB.setFont(QFont("굴림체", 10))
+        else: 
+            self.howToUse3_LB.setGeometry(208, 35, 500, 33)
+            self.howToUse3_LB.setFont(QFont("굴림체", 9))
         self.howToUse3_LB.setStyleSheet(StyleSheets.regular_text.value)
         self.howToUse3_LB.setText("교내 연구실 안전교육을 자동으로 진행 및 완료하는 프로그램입니다.\n본 프로그램 사용의 책임은 사용자에게 있습니다.")
 
@@ -190,8 +203,12 @@ class MainUI(QMainWindow):
         self.login_FRM.setStyleSheet(StyleSheets.login_frame.value)
 
         self.login_LB = QLabel(self.login_FRM)
-        self.login_LB.setGeometry(30, 31, 100, 37)
-        self.login_LB.setFont(QFont("나눔고딕OTF", 26, QFont.Bold))
+        if self.dpi_percent <= 100: 
+            self.login_LB.setGeometry(30, 31, 100, 37)
+            self.login_LB.setFont(QFont("나눔고딕OTF", 26, QFont.Bold))
+        else: 
+            self.login_LB.setGeometry(30, 31, 116, 41)
+            self.login_LB.setFont(QFont("나눔고딕OTF", 25, QFont.Bold))
         self.login_LB.setStyleSheet(StyleSheets.login_text.value)
         self.login_LB.setText("로그인")
 
@@ -204,58 +221,94 @@ class MainUI(QMainWindow):
         self.accountTitle_LB.setStyleSheet(StyleSheets.account_title.value)
 
         self.accountInfo_LB = QLabel(self.account_FRM)
-        self.accountInfo_LB.setGeometry(41, 81, 385, 35)
-        self.accountInfo_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+        if self.dpi_percent <= 100: 
+            self.accountInfo_LB.setGeometry(41, 81, 385, 35)
+            self.accountInfo_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+        else: 
+            self.accountInfo_LB.setGeometry(40, 81, 385, 35)
+            self.accountInfo_LB.setFont(QFont("굴림체", 11, QFont.Bold))
         self.accountInfo_LB.setStyleSheet(StyleSheets.account_info.value)
         self.accountInfo_LB.setText("학생/교원/직원 로그인")
         self.accountInfo_LB.setAlignment(Qt.AlignCenter)
 
         self.userID_LB = QLabel(self.account_FRM)
-        self.userID_LB.setGeometry(103, 139, 45, 18)
-        self.userID_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+        if self.dpi_percent <= 100: 
+            self.userID_LB.setGeometry(103, 139, 45, 18)
+            self.userID_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+        else: 
+            self.userID_LB.setGeometry(93, 139, 55, 19)
+            self.userID_LB.setFont(QFont("굴림체", 11, QFont.Bold))
         self.userID_LB.setStyleSheet(StyleSheets.account_text.value)
         self.userID_LB.setText("아이디")
 
         self.userID_LE = QLineEdit(self.account_FRM)
-        self.userID_LE.setGeometry(155, 136, 234, 27)
-        self.userID_LE.setFont(QFont("굴림체", 9))
+        if self.dpi_percent <= 100: 
+            self.userID_LE.setGeometry(155, 136, 234, 27)
+            self.userID_LE.setFont(QFont("굴림체", 9))
+        else: 
+            self.userID_LE.setGeometry(155, 136, 236, 28)
+            self.userID_LE.setFont(QFont("굴림체", 10))
         self.userID_LE.setStyleSheet(StyleSheets.account_box.value)
         
         self.userPW_LB = QLabel(self.account_FRM)
-        self.userPW_LB.setGeometry(88, 176, 60, 14)
-        self.userPW_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+        if self.dpi_percent <= 100: 
+            self.userPW_LB.setGeometry(88, 176, 60, 14)
+            self.userPW_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+        else: 
+            self.userPW_LB.setGeometry(73, 176, 75, 19)
+            self.userPW_LB.setFont(QFont("굴림체", 11, QFont.Bold))
         self.userPW_LB.setStyleSheet(StyleSheets.account_text.value)
         self.userPW_LB.setText("비밀번호")
 
         self.userPW_LE = QLineEdit(self.account_FRM)
-        self.userPW_LE.setGeometry(155, 171, 234, 27)
-        self.userPW_LE.setFont(QFont("굴림체", 9))
+        if self.dpi_percent <= 100: 
+            self.userPW_LE.setGeometry(155, 171, 234, 27)
+            self.userPW_LE.setFont(QFont("굴림체", 9))
+        else: 
+            self.userPW_LE.setGeometry(155, 171, 236, 28)
+            self.userPW_LE.setFont(QFont("굴림체", 10))
         self.userPW_LE.setStyleSheet(StyleSheets.account_box.value)
         self.userPW_LE.setEchoMode(QLineEdit.Password)
 
         self.login_BT = QPushButton(self.account_FRM)
-        self.login_BT.setGeometry(159, 231, 150, 33)
-        self.login_BT.setFont(QFont("나눔고딕OTF", 11, QFont.Bold))
+        if self.dpi_percent <= 100: 
+            self.login_BT.setGeometry(159, 231, 150, 33)
+            self.login_BT.setFont(QFont("나눔고딕OTF", 11, QFont.Bold))
+        else: 
+            self.login_BT.setGeometry(152, 231, 161, 39)
+            self.login_BT.setFont(QFont("나눔고딕OTF", 12, QFont.Bold))
         self.login_BT.setStyleSheet(StyleSheets.login_button.value)
         self.login_BT.setFocusPolicy(Qt.NoFocus)
         self.login_BT.setText("로그인")
         self.login_BT.setCursor(Qt.PointingHandCursor)
 
         self.inquiry1_LB = QLabel(self.body_FRM)
-        self.inquiry1_LB.setGeometry(41, 577, 61, 18)
-        self.inquiry1_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+        if self.dpi_percent <= 100: 
+            self.inquiry1_LB.setGeometry(41, 577, 61, 18)
+            self.inquiry1_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+        else: 
+            self.inquiry1_LB.setGeometry(41, 577, 73, 18)
+            self.inquiry1_LB.setFont(QFont("굴림체", 11, QFont.Bold))
         self.inquiry1_LB.setStyleSheet(StyleSheets.bold_text.value)
         self.inquiry1_LB.setText("이용문의")
         
         self.inquiry2_LB = QLabel(self.body_FRM)
-        self.inquiry2_LB.setGeometry(112, 577, 7, 18)
-        self.inquiry2_LB.setFont(QFont("나눔고딕OTF", 10))
+        if self.dpi_percent <= 100: 
+            self.inquiry2_LB.setGeometry(112, 577, 7, 18)
+            self.inquiry2_LB.setFont(QFont("나눔고딕OTF", 10))
+        else: 
+            self.inquiry2_LB.setGeometry(126, 577, 7, 18)
+            self.inquiry2_LB.setFont(QFont("나눔고딕OTF", 11, QFont.Bold))
         self.inquiry2_LB.setStyleSheet(StyleSheets.stick_text.value)
         self.inquiry2_LB.setText("|")
 
         self.inquiry3_LB = QLabel(self.body_FRM)
-        self.inquiry3_LB.setGeometry(126, 577, 750, 18)
-        self.inquiry3_LB.setFont(QFont("굴림체", 10))
+        if self.dpi_percent <= 100: 
+            self.inquiry3_LB.setGeometry(126, 577, 750, 18)
+            self.inquiry3_LB.setFont(QFont("굴림체", 10))
+        else: 
+            self.inquiry3_LB.setGeometry(140, 577, 720, 18)
+            self.inquiry3_LB.setFont(QFont("굴림체", 11))
         self.inquiry3_LB.setStyleSheet(StyleSheets.regular_text.value)
         self.inquiry3_LB.setText("개발자에게 문의")
         
@@ -267,6 +320,8 @@ class MainUI(QMainWindow):
         pass                # Test code / please delete this line.
         
         # --- End of signal() --- #
+    
+    ## --- End of MainUI() --- ##
 
 
 
