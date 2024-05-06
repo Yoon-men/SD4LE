@@ -2,11 +2,18 @@
   <img src="img/card_crop.png">
 </p>
 
+![GitHub Release](https://img.shields.io/github/v/release/Yoon-men/SD4LE)
+
 <br>
 
 > From now on, the safety education will be over within 30 seconds.
 
 > "A rudimentary implant."
+
+<br>
+
+## Link
+- [Download](https://github.com/Yoon-men/SD4LE/releases/latest/)
 
 <br>
 
