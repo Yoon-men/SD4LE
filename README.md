@@ -4,7 +4,9 @@
 
 <br>
 
-> A rudimentary implant.
+> From now on, the safety education will be over within 30 seconds.
+
+> "A rudimentary implant."
 
 <br>
 
