@@ -14,6 +14,7 @@
 
 ## Link
 - [Download](https://github.com/Yoon-men/SD4LE/releases/latest/)
+- [Bug report](https://github.com/Yoon-men/SD4LE/issues)
 
 <br>
 
