@@ -3,6 +3,8 @@
 </p>
 
 ![GitHub Release](https://img.shields.io/github/v/release/Yoon-men/SD4LE)
+<img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/Yoon-men/SD4LE/total">
+
 
 <br>
 
