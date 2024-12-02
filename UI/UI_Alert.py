@@ -1,19 +1,9 @@
-"""
-SD4LE, Sandevistan for labsafety education
-
-ver 1.1.0
-
-~ Thu, May 2, 2024 ~
-"""
-
-#* ------------------------------------------------------------ *#
-
 import sys
 from enum import Enum
-from os import path as os_path
+import os
 from webbrowser import open as open_webbrowser
 
-from PySide2.QtWidgets import (
+from PySide6.QtWidgets import (
     QApplication,
     QDialog,
     QFrame,
@@ -21,10 +11,18 @@ from PySide2.QtWidgets import (
     QPushButton,
     QGraphicsDropShadowEffect
 )
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QIcon, QFontDatabase, QFont
+from PySide6.QtCore import Qt, QPoint
+from PySide6.QtGui import QIcon, QFontDatabase, QFont, QMouseEvent, QKeyEvent
 
-from src.src import *
+#* ------------------------------------------------------------ *#
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# * ------------------------------------------------------------ *#
+
+from SD4LE_config import SD4LEConfig
+
+from src.img.img import *
 
 #* ------------------------------------------------------------ *#
 
@@ -40,7 +38,10 @@ class StyleSheets(Enum):
     title_frame = """
         QFrame{
             background-color: #484848;
-            border-radius: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
         }
     """
 
@@ -81,16 +82,19 @@ class AlertUI(QDialog):
 
     def alertUI(self): 
         # Basic part
-        self.setWindowFlags(Qt.FramelessWindowHint)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setWindowFlags(
+            Qt.WindowType.FramelessWindowHint | 
+            Qt.WindowType.WindowStaysOnTopHint
+        )
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
         self.setFixedSize(371, 250)
         self.setWindowTitle("SD4LE_Alert")
-        icon_path = os_path.join(os_path.dirname(__file__), "SD4LE.ico")
-        if os_path.isfile(icon_path): 
+        icon_path = SD4LEConfig.ICON_PATH
+        if os.path.isfile(icon_path): 
             self.setWindowIcon(QIcon(icon_path))
-        font_path = os_path.join(os_path.dirname(__file__), "NanumGothicBold.otf")
-        if os_path.isfile(font_path): 
+        font_path = SD4LEConfig.FONT_PATH
+        if os.path.isfile(font_path): 
             QFontDatabase.addApplicationFont(font_path)
 
         
@@ -113,53 +117,53 @@ class AlertUI(QDialog):
         self.title_LB.setGeometry(90, 13, 170, 20)
         self.title_LB.setStyleSheet("""
             QLabel{
-                image: url(:/src/alert_title.png);
+                image: url(:/img/alert_title.png);
             }
         """)
 
         self.description_LB = QLabel(self.body_FRM)
         self.description_LB.setGeometry(26, 71, 300, 100)
-        self.description_LB.setFont(QFont("나눔고딕OTF", 12, QFont.Bold))
+        self.description_LB.setFont(QFont("나눔고딕OTF", 12, QFont.Weight.Bold))
         self.description_LB.setStyleSheet(StyleSheets.label.value)
         self.description_LB.setText("ID, PW가 모두 입력되었는지\n확인해 주십시오.")
-        self.description_LB.setAlignment(Qt.AlignCenter)
+        self.description_LB.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.ok_BT = QPushButton(self.body_FRM)
         self.ok_BT.setGeometry(96, 199, 160, 24)
-        self.ok_BT.setFont(QFont("나눔고딕OTF", 9, QFont.Bold))
+        self.ok_BT.setFont(QFont("나눔고딕OTF", 9, QFont.Weight.Bold))
         self.ok_BT.setStyleSheet(StyleSheets.push_button.value)
         self.ok_BT.setText("확인")
-        self.ok_BT.setFocusPolicy(Qt.NoFocus)
+        self.ok_BT.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.github_ok_BT = QPushButton(self.body_FRM)
         self.github_ok_BT.setGeometry(96, 199, 160, 24)
-        self.github_ok_BT.setFont(QFont("나눔고딕OTF", 9, QFont.Bold))
+        self.github_ok_BT.setFont(QFont("나눔고딕OTF", 9, QFont.Weight.Bold))
         self.github_ok_BT.setStyleSheet(StyleSheets.push_button.value)
         self.github_ok_BT.setText("확인")
-        self.github_ok_BT.setFocusPolicy(Qt.NoFocus)
+        self.github_ok_BT.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.github_ok_BT.hide()
 
         # --- End of alertUI() --- #
 
 
 
-    def setCenterPoint(self, event): 
-        self.centerPoint = event.globalPos()
+    def setCenterPoint(self, event: QMouseEvent) -> None: 
+        self.centerPoint: QPoint = event.globalPos()
 
         # --- End of setCenterPoint() --- #
 
 
-    def moveWindow(self, event): 
-        if event.buttons() == Qt.LeftButton: 
+    def moveWindow(self, event: QMouseEvent) -> None: 
+        if event.buttons() == Qt.MouseButton.LeftButton: 
             self.move(self.pos() + event.globalPos() - self.centerPoint)
-            self.centerPoint = event.globalPos()
+            self.centerPoint: QPoint = event.globalPos()
         
         # --- End of moveWindow() --- #
 
 
 
-    def keyPressEvent(self, event): 
-        if event.key() == Qt.Key_Escape: pass
+    def keyPressEvent(self, event: QKeyEvent) -> None: 
+        if event.key() == Qt.Key.Key_Escape: pass
 
         # --- End of keyPressEvent() --- #
 
@@ -168,7 +172,7 @@ class AlertUI(QDialog):
     def signal(self) -> None: 
         self.ok_BT.clicked.connect(self.close)
 
-        self.github_ok_BT.clicked.connect(lambda: open_webbrowser("https://github.com/Yoon-men/SD4LE"))
+        self.github_ok_BT.clicked.connect(lambda: open_webbrowser("https://github.com/Yoon-men/SD4LE/releases/latest/"))
         self.github_ok_BT.clicked.connect(self.github_ok_BT.hide)
         self.github_ok_BT.clicked.connect(self.close)
 
@@ -184,4 +188,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     alertUI = AlertUI()
     alertUI.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

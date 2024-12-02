@@ -1,20 +1,22 @@
 """
-SD4LE, Sandevistan for labsafety education
+Logger
 
-ver 1.1.0
+- DEBUG    = logging.DEBUG
+- INFO     = logging.INFO
+- WARNING  = logging.WARNING
+- ERROR    = logging.ERROR
+- CRITICAL = logging.CRITICAL
+- init_logger(name: str, version: str, c_level: int, f_level: int, f_path: str = "./log") -> logging.Logger
 
-~ Thu, May 2, 2024 ~
+ver 1.1.1
+
+~ Tue, Sep 24, 2024 ~
 """
 
 #* ------------------------------------------------------------ *#
 
 import logging
-
-from os import (
-    path     as os_path, 
-    makedirs as os_makedirs
-)
-
+import os
 import time
 
 #* ------------------------------------------------------------ *#
@@ -28,18 +30,19 @@ CRITICAL = logging.CRITICAL
 #* ------------------------------------------------------------ *#
 
 def init_logger(
-    name: str, version: str, c_level: int, f_level: int, f_path: str = "./SD4LE_log"
+        name: str, version: str, c_level: int, f_level: int, f_path: str = "./log"
 ) -> logging.Logger: 
     logger = logging.getLogger(name=name)
     logger.setLevel(DEBUG)
     logger.propagate = False
 
-    if not os_path.isdir(f_path): 
-        os_makedirs(f_path)
-    
+    if not os.path.isdir(f_path): 
+        os.makedirs(f_path)
+
     c_handler = logging.StreamHandler()
     f_handler = logging.FileHandler(
-        filename=f"{f_path}/{time.strftime('%Y-%m-%d')}.log", encoding="utf-8"
+        filename=f"{f_path}/{time.strftime('%Y-%m-%d')}.log", 
+        encoding="utf-8"
     )
     c_handler.setLevel(c_level)
     f_handler.setLevel(f_level)
@@ -59,5 +62,3 @@ def init_logger(
     logger.addHandler(f_handler)
 
     return logger
-
-    # --- End of logger() --- #

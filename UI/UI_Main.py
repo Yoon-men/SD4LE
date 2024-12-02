@@ -1,18 +1,8 @@
-"""
-SD4LE, Sandevistan for labsafety education
-
-ver 1.1.0
-
-~ Thu, May 2, 2024 ~
-"""
-
-#* ------------------------------------------------------------ *#
-
 import sys
 from enum import Enum
-from os import path as os_path
+import os
 
-from PySide2.QtWidgets import (
+from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
     QFrame,
@@ -20,11 +10,20 @@ from PySide2.QtWidgets import (
     QLineEdit,
     QPushButton,
 )
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QIcon, QFontDatabase, QFont
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon, QFontDatabase, QFont
 
-from src.src import *
-from SD4LE_DPI_Getter import get_dpi, dpi_to_percent
+#* ------------------------------------------------------------ *#
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# * ------------------------------------------------------------ *#
+
+from SD4LE_config import SD4LEConfig
+
+from src.img.img import *
+
+from etc.dpi_getter import get_dpi, dpi_to_percent
 
 #* ------------------------------------------------------------ *#
 
@@ -32,7 +31,7 @@ from SD4LE_DPI_Getter import get_dpi, dpi_to_percent
 class StyleSheets(Enum): 
     window = """
         QMainWindow{
-            background: url(:/src/background.jpg);
+            background: url(:/img/background.jpg);
             background-repeat: no-repeat;
             background-position: center;
         }
@@ -91,7 +90,7 @@ class StyleSheets(Enum):
 
     account_title = """
         QLabel{
-            background: url(:/src/login_title.png);
+            background: url(:/img/login_title.png);
             background-repeat: no-repeat;
             background-position: center;
 
@@ -151,11 +150,11 @@ class MainUI(QMainWindow):
         # Basic part
         self.setFixedSize(1061, 663)
         self.setWindowTitle("SD4LE")
-        icon_path = os_path.join(os_path.dirname(__file__), "SD4LE.ico")
-        if os_path.isfile(icon_path): 
+        icon_path = SD4LEConfig.ICON_PATH
+        if os.path.isfile(icon_path): 
             self.setWindowIcon(QIcon(icon_path))
-        font_path = os_path.join(os_path.dirname(__file__), "NanumGothicBold.otf")
-        if os_path.isfile(font_path): 
+        font_path = SD4LEConfig.FONT_PATH
+        if os.path.isfile(font_path): 
             QFontDatabase.addApplicationFont(font_path)
         
 
@@ -173,7 +172,7 @@ class MainUI(QMainWindow):
             self.howToUse1_LB.setGeometry(40, 34, 122, 34)
         else: 
             self.howToUse1_LB.setGeometry(40, 34, 143, 37)
-        self.howToUse1_LB.setFont(QFont("나눔고딕OTF", 23, QFont.Bold))
+        self.howToUse1_LB.setFont(QFont("나눔고딕OTF", 23, QFont.Weight.Bold))
         self.howToUse1_LB.setStyleSheet(StyleSheets.bold_text.value)
         self.howToUse1_LB.setText("이용안내")
 
@@ -205,10 +204,10 @@ class MainUI(QMainWindow):
         self.login_LB = QLabel(self.login_FRM)
         if self.dpi_percent <= 100: 
             self.login_LB.setGeometry(30, 31, 100, 37)
-            self.login_LB.setFont(QFont("나눔고딕OTF", 26, QFont.Bold))
+            self.login_LB.setFont(QFont("나눔고딕OTF", 26, QFont.Weight.Bold))
         else: 
             self.login_LB.setGeometry(30, 31, 116, 41)
-            self.login_LB.setFont(QFont("나눔고딕OTF", 25, QFont.Bold))
+            self.login_LB.setFont(QFont("나눔고딕OTF", 25, QFont.Weight.Bold))
         self.login_LB.setStyleSheet(StyleSheets.login_text.value)
         self.login_LB.setText("로그인")
 
@@ -223,10 +222,10 @@ class MainUI(QMainWindow):
         self.accountInfo_LB = QLabel(self.account_FRM)
         if self.dpi_percent <= 100: 
             self.accountInfo_LB.setGeometry(41, 81, 385, 35)
-            self.accountInfo_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+            self.accountInfo_LB.setFont(QFont("굴림체", 10, QFont.Weight.Bold))
         else: 
             self.accountInfo_LB.setGeometry(40, 81, 385, 35)
-            self.accountInfo_LB.setFont(QFont("굴림체", 11, QFont.Bold))
+            self.accountInfo_LB.setFont(QFont("굴림체", 11, QFont.Weight.Bold))
         self.accountInfo_LB.setStyleSheet(StyleSheets.account_info.value)
         self.accountInfo_LB.setText("학생/교원/직원 로그인")
         self.accountInfo_LB.setAlignment(Qt.AlignCenter)
@@ -234,10 +233,10 @@ class MainUI(QMainWindow):
         self.userID_LB = QLabel(self.account_FRM)
         if self.dpi_percent <= 100: 
             self.userID_LB.setGeometry(103, 139, 45, 18)
-            self.userID_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+            self.userID_LB.setFont(QFont("굴림체", 10, QFont.Weight.Bold))
         else: 
             self.userID_LB.setGeometry(93, 139, 55, 19)
-            self.userID_LB.setFont(QFont("굴림체", 11, QFont.Bold))
+            self.userID_LB.setFont(QFont("굴림체", 11, QFont.Weight.Bold))
         self.userID_LB.setStyleSheet(StyleSheets.account_text.value)
         self.userID_LB.setText("아이디")
 
@@ -253,10 +252,10 @@ class MainUI(QMainWindow):
         self.userPW_LB = QLabel(self.account_FRM)
         if self.dpi_percent <= 100: 
             self.userPW_LB.setGeometry(88, 176, 60, 14)
-            self.userPW_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+            self.userPW_LB.setFont(QFont("굴림체", 10, QFont.Weight.Bold))
         else: 
             self.userPW_LB.setGeometry(73, 176, 75, 19)
-            self.userPW_LB.setFont(QFont("굴림체", 11, QFont.Bold))
+            self.userPW_LB.setFont(QFont("굴림체", 11, QFont.Weight.Bold))
         self.userPW_LB.setStyleSheet(StyleSheets.account_text.value)
         self.userPW_LB.setText("비밀번호")
 
@@ -273,22 +272,22 @@ class MainUI(QMainWindow):
         self.login_BT = QPushButton(self.account_FRM)
         if self.dpi_percent <= 100: 
             self.login_BT.setGeometry(159, 231, 150, 33)
-            self.login_BT.setFont(QFont("나눔고딕OTF", 11, QFont.Bold))
+            self.login_BT.setFont(QFont("나눔고딕OTF", 11, QFont.Weight.Bold))
         else: 
             self.login_BT.setGeometry(152, 231, 161, 39)
-            self.login_BT.setFont(QFont("나눔고딕OTF", 12, QFont.Bold))
+            self.login_BT.setFont(QFont("나눔고딕OTF", 12, QFont.Weight.Bold))
         self.login_BT.setStyleSheet(StyleSheets.login_button.value)
-        self.login_BT.setFocusPolicy(Qt.NoFocus)
+        self.login_BT.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.login_BT.setText("로그인")
         self.login_BT.setCursor(Qt.PointingHandCursor)
 
         self.inquiry1_LB = QLabel(self.body_FRM)
         if self.dpi_percent <= 100: 
             self.inquiry1_LB.setGeometry(41, 577, 61, 18)
-            self.inquiry1_LB.setFont(QFont("굴림체", 10, QFont.Bold))
+            self.inquiry1_LB.setFont(QFont("굴림체", 10, QFont.Weight.Bold))
         else: 
             self.inquiry1_LB.setGeometry(41, 577, 73, 18)
-            self.inquiry1_LB.setFont(QFont("굴림체", 11, QFont.Bold))
+            self.inquiry1_LB.setFont(QFont("굴림체", 11, QFont.Weight.Bold))
         self.inquiry1_LB.setStyleSheet(StyleSheets.bold_text.value)
         self.inquiry1_LB.setText("이용문의")
         
@@ -298,7 +297,7 @@ class MainUI(QMainWindow):
             self.inquiry2_LB.setFont(QFont("나눔고딕OTF", 10))
         else: 
             self.inquiry2_LB.setGeometry(126, 577, 7, 18)
-            self.inquiry2_LB.setFont(QFont("나눔고딕OTF", 11, QFont.Bold))
+            self.inquiry2_LB.setFont(QFont("나눔고딕OTF", 11, QFont.Weight.Bold))
         self.inquiry2_LB.setStyleSheet(StyleSheets.stick_text.value)
         self.inquiry2_LB.setText("|")
 
@@ -331,4 +330,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     mainUI = MainUI()
     mainUI.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -1,29 +1,27 @@
-"""
-SD4LE, Sandevistan for labsafety education
-
-ver 1.1.0
-
-~ Thu, May 2, 2024 ~
-"""
-
-#* ------------------------------------------------------------ *#
-
 import sys
 from enum import Enum
-from os import path as os_path
+import os
 
-from PySide2.QtWidgets import (
+from PySide6.QtWidgets import (
     QApplication,
     QDialog,
     QFrame,
     QLabel,
     QGraphicsDropShadowEffect, 
 )
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QIcon, QFontDatabase, QFont
-from PySide2.QtSvg import QSvgWidget
+from PySide6.QtCore import Qt, QPoint
+from PySide6.QtGui import QIcon, QFontDatabase, QFont, QMouseEvent, QKeyEvent
+from PySide6.QtSvgWidgets import QSvgWidget
 
-from src.src import *
+# * ------------------------------------------------------------ *#
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# * ------------------------------------------------------------ *#
+
+from SD4LE_config import SD4LEConfig
+
+from src.img.img import *
 
 #* ------------------------------------------------------------ *#
 
@@ -39,7 +37,10 @@ class StyleSheets(Enum):
     title_frame = """
         QFrame{
             background-color: #484848;
-            border-radius: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
         }
     """
 
@@ -79,16 +80,19 @@ class LoadingUI(QDialog):
 
     def loadingUI(self): 
         # Basic part
-        self.setWindowFlags(Qt.FramelessWindowHint)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setWindowFlags(
+            Qt.WindowType.FramelessWindowHint | 
+            Qt.WindowType.WindowStaysOnTopHint
+        )
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
         self.setFixedSize(371, 250)
         self.setWindowTitle("SD4LE_Loading")
-        icon_path = os_path.join(os_path.dirname(__file__), "SD4LE.ico")
-        if os_path.isfile(icon_path): 
+        icon_path = SD4LEConfig.ICON_PATH
+        if os.path.isfile(icon_path): 
             self.setWindowIcon(QIcon(icon_path))
-        font_path = os_path.join(os_path.dirname(__file__), "NanumGothicBold.otf")
-        if os_path.isfile(font_path): 
+        font_path = SD4LEConfig.FONT_PATH
+        if os.path.isfile(font_path): 
             QFontDatabase.addApplicationFont(font_path)
 
 
@@ -111,43 +115,43 @@ class LoadingUI(QDialog):
         self.title_LB.setGeometry(90, 13, 170, 20)
         self.title_LB.setStyleSheet("""
             QLabel{
-                image: url(:/src/loading_title.png);
+                image: url(:/img/loading_title.png);
             }
         """)
 
-        svg_path = os_path.join(os_path.dirname(__file__), "src/loading.svg")
-        if os_path.isfile(svg_path): 
+        svg_path = SD4LEConfig.SVG_PATH
+        if os.path.isfile(svg_path): 
             self.loading_SVG = QSvgWidget(svg_path, self.body_FRM)
             self.loading_SVG.setGeometry(136, 70, 80, 80)
         
         self.description_LB = QLabel(self.body_FRM)
         self.description_LB.setGeometry(71, 150, 210, 40)
-        self.description_LB.setFont(QFont("나눔고딕OTF", 12, QFont.Bold))
+        self.description_LB.setFont(QFont("나눔고딕OTF", 12, QFont.Weight.Bold))
         self.description_LB.setStyleSheet(StyleSheets.label.value)
         self.description_LB.setText("작업 진행 중")
-        self.description_LB.setAlignment(Qt.AlignCenter)
+        self.description_LB.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # --- End of loadingUI() --- #
 
 
 
-    def setCenterPoint(self, event): 
-        self.centerPoint = event.globalPos()
+    def setCenterPoint(self, event: QMouseEvent) -> None: 
+        self.centerPoint: QPoint = event.globalPos()
 
         # --- End of setCenterPoint() --- #
 
 
-    def moveWindow(self, event): 
-        if event.buttons() == Qt.LeftButton: 
+    def moveWindow(self, event: QMouseEvent) -> None: 
+        if event.buttons() == Qt.MouseButton.LeftButton: 
             self.move(self.pos() + event.globalPos() - self.centerPoint)
-            self.centerPoint = event.globalPos()
+            self.centerPoint: QPoint = event.globalPos()
 
         # --- End of moveWindow() --- #
 
 
 
-    def keyPressEvent(self, event): 
-        if event.key() == Qt.Key_Escape: pass
+    def keyPressEvent(self, event: QKeyEvent) -> None: 
+        if event.key() == Qt.Key.Key_Escape: pass
 
         # --- End of keyPressEvent() --- #
     
@@ -161,4 +165,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     loadingUI = LoadingUI()
     loadingUI.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -1,0 +1,26 @@
+name: Keep Supabase Active
+
+on:
+  workflow_dispatch:  # 수동 실행 트리거
+  schedule:
+    - cron: '0 0 */7 * *'  # 7일마다 실행
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    
+    env:
+      PGHOST: aws-0-ap-southeast-1.pooler.supabase.com
+      PGPORT: 6543
+      PGDATABASE: postgres
+      PGUSER: postgres.zddzzszppxkdqvzuhwlr
+      PGPASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+
+    steps:
+      - name: Install PostgreSQL Client
+        run: sudo apt-get install postgresql-client
+
+      - name: Insert keepalive log
+        run: |
+          psql -c "SET timezone='Asia/Seoul';"
+          psql -c "INSERT INTO keepalive_log DEFAULT VALUES;"

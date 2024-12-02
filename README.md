@@ -1,10 +1,9 @@
 <p align="center">
-  <img src="img/card_crop.png">
+  <img src="imgs/card_crop.png">
 </p>
 
 ![GitHub Release](https://img.shields.io/github/v/release/Yoon-men/SD4LE)
 <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/Yoon-men/SD4LE/total">
-
 
 <br>
 
@@ -22,18 +21,18 @@
 
 ## Demo
 <p align="center">
-  <img src="img/demo.png">
+  <img src="imgs/demo.png">
 </p>
 <p align="center">
-  <img src="img/select_and_skip_lectures.gif">
+  <img src="imgs/select_and_skip_lectures.gif">
 </p>
 <p align="center">
-  <img src="img/solve_the_problems.gif">
+  <img src="imgs/solve_the_problems.gif">
 </p>
 
 <br>
 
 ## Origin
 <p align="center">
-  <img src="img/origin_of_card.gif">
+  <img src="imgs/origin_of_card.gif">
 </p>
