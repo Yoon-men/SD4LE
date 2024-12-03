@@ -45,6 +45,12 @@ class Config:
         else os.path.join(os.getcwd(), "src", "img", "loading.svg")
     )
 
+    ENV_PATH: str = (
+        os.path.join(sys._MEIPASS, ".env")
+        if getattr(sys, "frozen", False)
+        else os.path.join(os.getcwd(), ".env")
+    )
+
     logger = init_logger(
         name="Sandevistan for labsafety education",
         version=VERSION,

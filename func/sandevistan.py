@@ -156,7 +156,7 @@ class Sandevistan():
         try: 
             self.driver.find_element(By.XPATH, '//*[@id="ProgressInfoList_btnExam"]').click()
 
-            openai.api_key = requests.get("http://bojgds.dothome.co.kr/data/openai_key.dat").text
+            openai.api_key = SD4LEConfig.DB_manager.get_api_key()
             time.sleep(0.5)
             exam_question = self.driver.find_element(By.ID, "frmExam").text.encode("utf-8").decode("utf-8")
             SD4LEConfig.logger.debug(f"\nexam_question: {exam_question}")               # Test code / please delete this line.
