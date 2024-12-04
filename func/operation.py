@@ -27,6 +27,8 @@ class Operation(QObject):
     open_alert_window_signal = Signal(str)
 
     def run(self, id: str, pw: str) -> None:
+        self.show_loading_window_signal.emit()
+        
         self.id: str = id
         self.pw: str = pw
         if not self.is_login_input_valid(self.id, self.pw):
@@ -109,7 +111,6 @@ class Operation(QObject):
 
     def operate(self) -> Optional[str]:
         SD4LEConfig.logger.info("START: 산데비스탄 가동")
-        self.show_loading_window_signal.emit()
         
         cheap_but_similar = {
             "this_fffire"                        : "STOP : 산데비스탄 가동 중지 (this_fffire)",
