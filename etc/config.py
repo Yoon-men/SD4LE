@@ -24,8 +24,8 @@ from etc.logger import *
 
 
 class Config:
-    VERSION: str = "1.2.0"
-    LAST_UPDATED: str = "Tue, Dec 3, 2024"
+    VERSION: str = "1.2.1-alpha.1"
+    LAST_UPDATED: str = "Thu, Dec 5, 2024"
 
     FONT_PATH: str = (
         os.path.join(sys._MEIPASS, "src", "NanumGothicBold.otf")

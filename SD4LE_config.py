@@ -11,4 +11,4 @@ class SD4LEConfig(Config):
     @classmethod
     def check_version(cls) -> bool:
         latest_version = cls.DB_manager.get_latest_version()
-        return True if cls.VERSION == latest_version else False
+        return True if cls.VERSION >= latest_version else False

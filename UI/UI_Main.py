@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
     QPushButton,
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QIcon, QFontDatabase, QFont
+from PySide6.QtGui import QIcon, QFontDatabase, QFont, QPalette, QColor
 
 #* ------------------------------------------------------------ *#
 
@@ -328,6 +328,27 @@ class MainUI(QMainWindow):
 
 if __name__ == "__main__": 
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+
+    # 라이트 모드 팔레트 설정
+    palette = QPalette()
+    palette.setColor(QPalette.ColorRole.Window, QColor(240, 240, 240))          # 창 배경 색상
+    palette.setColor(QPalette.ColorRole.WindowText, QColor(0, 0, 0))            # 창 텍스트 색상
+    palette.setColor(QPalette.ColorRole.Base, QColor(255, 255, 255))            # 입력 위젯의 배경 색상
+    palette.setColor(QPalette.ColorRole.AlternateBase, QColor(240, 240, 240))   # 대체 배경 색상
+    palette.setColor(QPalette.ColorRole.ToolTipBase, QColor(255, 255, 255))     # 툴팁 배경 색상
+    palette.setColor(QPalette.ColorRole.ToolTipText, QColor(0, 0, 0))           # 툴팁 텍스트 색상
+    palette.setColor(QPalette.ColorRole.Text, QColor(0, 0, 0))                  # 일반 텍스트 색상
+    palette.setColor(QPalette.ColorRole.Button, QColor(240, 240, 240))          # 버튼 배경 색상
+    palette.setColor(QPalette.ColorRole.ButtonText, QColor(0, 0, 0))            # 버튼 텍스트 색상
+    palette.setColor(QPalette.ColorRole.BrightText, QColor(255, 0, 0))          # 강조된 텍스트 색상
+    palette.setColor(QPalette.ColorRole.Link, QColor(0, 0, 255))                # 링크 색상
+    palette.setColor(QPalette.ColorRole.Highlight, QColor(0, 120, 215))         # 선택 항목 강조 색상
+    palette.setColor(QPalette.ColorRole.HighlightedText, QColor(255, 255, 255)) # 선택 항목 텍스트 색상
+
+    # 팔레트 적용
+    app.setPalette(palette)
+
     mainUI = MainUI()
     mainUI.show()
     sys.exit(app.exec())
