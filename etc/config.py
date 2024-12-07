@@ -26,8 +26,8 @@ from etc.logger import *
 
 
 class Config:
-    VERSION: str = "1.2.1-alpha.1"
-    LAST_UPDATED: str = "Thu, Dec 5, 2024"
+    VERSION: str = "1.3.0"
+    LAST_UPDATED: str = "Sun, Dec 8, 2024"
 
     def get_base_path() -> str:
         if getattr(sys, "frozen", False):
