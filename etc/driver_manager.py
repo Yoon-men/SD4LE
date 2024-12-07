@@ -36,8 +36,8 @@ class DriverManager:
         for make_driver in [
             self.make_chrome_driver,
             self.make_edge_driver,
-            self.make_firefox_driver,
-            self.make_safari_driver
+            self.make_firefox_driver
+            # self.make_safari_driver
         ]:
             try: 
                 self.driver = make_driver()
@@ -45,7 +45,7 @@ class DriverManager:
             except: 
                 continue
         
-        raise WebDriverException("Chrome, Edge, Firefox, Safari 브라우저를 모두 찾을 수 없어 WebDriver를 생성할 수 없습니다.")
+        raise WebDriverException("Chrome, Edge, Firefox 브라우저를 모두 찾을 수 없어 WebDriver를 생성할 수 없습니다.")
 
 
 

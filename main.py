@@ -1,9 +1,9 @@
 """
 SD4LE, Sandevistan for labsafety education
 
-ver 1.2.1-alpha.1
+ver 1.3.0
 
-~ Thu, Dec 5, 2024 ~
+~ 03:37:42 on Sun, Dec 8, 2024 ~
 """
 
 #* ------------------------------------------------------------ *#

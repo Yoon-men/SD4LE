@@ -1,9 +1,9 @@
 """
 Config
 
-ver 1.0.1
+ver 1.0.2
 
-~ Wed, Nov 27, 2024 ~
+~ 02:56 on Sun, Dec 8, 2024 ~
 """
 
 # * ------------------------------------------------------------ *#
@@ -16,6 +16,8 @@ import traceback
 
 import certifi
 
+import platform
+
 # * ------------------------------------------------------------ *#
 
 from etc.logger import *
@@ -27,29 +29,24 @@ class Config:
     VERSION: str = "1.2.1-alpha.1"
     LAST_UPDATED: str = "Thu, Dec 5, 2024"
 
-    FONT_PATH: str = (
-        os.path.join(sys._MEIPASS, "src", "NanumGothicBold.otf")
-        if getattr(sys, "frozen", False)
-        else os.path.join(os.getcwd(), "src", "NanumGothicBold.otf")
-    )
+    def get_base_path() -> str:
+        if getattr(sys, "frozen", False):
+            # PyInstaller
+            if hasattr(sys, "_MEIPASS"):
+                return sys._MEIPASS
+            # py2app
+            else:
+                return os.path.join(os.path.dirname(sys.executable), "..", "Resources")
+        else:
+            return os.getcwd()
 
-    ICON_PATH: str = (
-        os.path.join(sys._MEIPASS, "src", "Icon.ico")
-        if getattr(sys, "frozen", False)
-        else os.path.join(os.getcwd(), "src", "Icon.ico")
-    )
+    FONT_PATH: str = os.path.join(get_base_path(), "src", "NanumGothicBold.otf")
 
-    SVG_PATH: str = (
-        os.path.join(sys._MEIPASS, "src", "img", "loading.svg")
-        if getattr(sys, "frozen", False)
-        else os.path.join(os.getcwd(), "src", "img", "loading.svg")
-    )
+    ICON_PATH: str = os.path.join(get_base_path(), "src", f"Icon.{'ico' if platform.system() == 'Windows' else 'icns'}")
 
-    ENV_PATH: str = (
-        os.path.join(sys._MEIPASS, ".env")
-        if getattr(sys, "frozen", False)
-        else os.path.join(os.getcwd(), ".env")
-    )
+    SVG_PATH: str = os.path.join(get_base_path(), "src", "img", "loading.svg")
+
+    ENV_PATH: str = os.path.join(get_base_path(), ".env")
 
     logger = init_logger(
         name="Sandevistan for labsafety education",
