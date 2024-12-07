@@ -1,9 +1,9 @@
 """
 Driver-Manager
 
-ver 1.0.0
+ver 1.1.0
 
-~ 01:07 on Mon, Dec 2, 2024 ~
+~ 15:18 on Sat, Dec 7, 2024 ~
 """
 
 # * ------------------------------------------------------------ *#
@@ -15,6 +15,7 @@ from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.edge.service import Service as EdgeService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.safari.options import Options as SafariOptions
 
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
@@ -28,18 +29,23 @@ from typing import Optional
 
 
 class DriverManager:
-    driver: Optional[webdriver.Chrome | webdriver.Edge | webdriver.Firefox] = None
+    driver: Optional[webdriver.Chrome | webdriver.Edge | webdriver.Firefox | webdriver.Safari] = None
 
 
     def __init__(self) -> None:
-        for make_driver in [self.make_chrome_driver, self.make_edge_driver, self.make_firefox_driver]:
+        for make_driver in [
+            self.make_chrome_driver,
+            self.make_edge_driver,
+            self.make_firefox_driver,
+            self.make_safari_driver
+        ]:
             try: 
                 self.driver = make_driver()
                 return
             except: 
                 continue
         
-        raise WebDriverException("Chrome, Edge, Firefox 브라우저를 모두 찾을 수 없어 WebDriver를 생성할 수 없습니다.")
+        raise WebDriverException("Chrome, Edge, Firefox, Safari 브라우저를 모두 찾을 수 없어 WebDriver를 생성할 수 없습니다.")
 
 
 
@@ -101,4 +107,14 @@ class DriverManager:
         )
         driver.implicitly_wait(2)
         
+        return driver
+
+
+
+    def make_safari_driver(self) -> webdriver.Safari:
+        options = SafariOptions()
+
+        driver = webdriver.Safari(options=options)
+        driver.implicitly_wait(2)
+
         return driver
