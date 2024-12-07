@@ -1,19 +1,20 @@
 """
 DPI-Getter 
 
-ver 1.0.0
+ver 1.1.0
 
 > 사용자의 모니터 DPI를 얻어서 퍼센트로 변환해줍니다.
 
 * get_dpi: 사용자 모니터의 DPI를 얻습니다.
 * dpi_to_percent: DPI를 퍼센트로 변환합니다.
 
-~ Thu, Sep 23, 2024 ~
+~ Sat, Dec 7, 2024 ~
 """
 
 #* ------------------------------------------------------------ *#
 
 import ctypes
+import platform
 
 #* ------------------------------------------------------------ *#
 
@@ -22,6 +23,9 @@ def get_dpi() -> int:
     """
     ## 사용자 모니터의 DPI를 얻습니다.
     """ 
+    if platform.system() != "Windows":
+        return 96
+    
     # 모니터 DPI 설정을 얻기 위한 준비
     user32 = ctypes.windll.user32
     user32.SetProcessDPIAware()
@@ -48,5 +52,6 @@ def dpi_to_percent(dpi: int) -> int:
 
 if __name__ == "__main__": 
     dpi = get_dpi()
+    print(f"현재 모니터 DPI는 {dpi}입니다.")
     percent = dpi_to_percent(dpi)
     print(f"현재 배율은 {percent}%입니다.")
