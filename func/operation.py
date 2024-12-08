@@ -46,18 +46,31 @@ class Operation(QObject):
         self.error_message: Optional[str] = None
 
 
+        driver_flag: bool = False
         try:
             self.driver_manager = DriverManager()
-            self.sandevistan = Sandevistan(driver=self.driver_manager.driver, id=self.id, pw=self.pw)
-
-            self.error_message: Optional[str] = self.operate()
-            self.success = True if not self.error_message else False
+            driver_flag = True
         except:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             formatted_traceback = traceback.format_exception(
                 exc_type, exc_value, exc_traceback
             )
             self.error_message = "".join(formatted_traceback)
+            self.open_alert_window_signal.emit("Chrome, Edge, Firefox 브라우저를\n모두 찾을 수 없어\nWebDriver를 생성할 수 없습니다.")
+
+        if driver_flag:
+            try:
+                self.driver_manager = DriverManager()
+                self.sandevistan = Sandevistan(driver=self.driver_manager.driver, id=self.id, pw=self.pw)
+
+                self.error_message: Optional[str] = self.operate()
+                self.success = True if not self.error_message else False
+            except:
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                formatted_traceback = traceback.format_exception(
+                    exc_type, exc_value, exc_traceback
+                )
+                self.error_message = "".join(formatted_traceback)
 
 
         self.DB_manager.add_execution_history(
