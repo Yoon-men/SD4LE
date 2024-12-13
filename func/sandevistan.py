@@ -94,22 +94,26 @@ class Sandevistan():
         """
         This func allows the driver to select subjects
         """
+        def let_the_lead_fly() -> None:
+            self.driver.find_element(By.XPATH, '//*[@id="btnMappingContent"]/img').click()
+
+            crt_sbj, self.max_sbj = map(int, self.driver.find_element(By.XPATH, '//*[@id="MappingContent_spSelectCount"]').text.split(' / '))
+            for i in range(crt_sbj+1, self.max_sbj+1) : 
+                self.driver.find_element(By.XPATH, f'//*[@id="MappingContent_tblList"]/tbody/tr[{i}]/td[1]/input[2]').click()
+            
+            self.driver.find_element(By.XPATH, '//*[@id="MappingContent_btnSave"]').click()
+            return None
+
+
         try: 
             try: 
-                self.driver.find_element(By.XPATH, '//*[@id="btnMappingContent"]/img').click()
-
-                crt_sbj, self.max_sbj = map(int, self.driver.find_element(By.XPATH, '//*[@id="MappingContent_spSelectCount"]').text.split(' / '))
-                for i in range(crt_sbj+1, self.max_sbj+1) : 
-                    self.driver.find_element(By.XPATH, f'//*[@id="MappingContent_tblList"]/tbody/tr[{i}]/td[1]/input[2]').click()
-                
-                self.driver.find_element(By.XPATH, '//*[@id="MappingContent_btnSave"]').click()
+                let_the_lead_fly()
                 return None
             except ElementNotInteractableException: 
-                self.max_sbj = 2
-                while True : 
-                    if not self.driver.find_elements(By.XPATH, f'//*[@id="divProgressInfList"]/table/tbody/tr[{self.max_sbj}]/td[7]/input') : break
-                    self.max_sbj += 1
-                self.max_sbj -= 2
+                self.driver.find_element(By.XPATH, '//*[@id="contents"]/div[2]/div[2]/p/input').click()
+                self.driver.switch_to.alert.accept()
+                time.sleep(0.5)
+                let_the_lead_fly()
                 return None
         except: 
             exc_type, exc_value, exc_traceback = sys.exc_info()
