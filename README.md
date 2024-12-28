@@ -13,13 +13,13 @@
 
 <br>
 
-## Link
+## 🔗 Link
 - [Download](https://github.com/Yoon-men/SD4LE/releases/latest/)
 - [Bug report](https://github.com/Yoon-men/SD4LE/issues)
 
 <br>
 
-## Demo
+## 📽 Demo
 <p align="center">
   <img src="imgs/demo.png">
 </p>
@@ -32,7 +32,7 @@
 
 <br>
 
-## Origin
+## 🌱 Origin
 <p align="center">
   <img src="imgs/origin_of_card.gif">
 </p>
