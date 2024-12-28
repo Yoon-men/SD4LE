@@ -13,6 +13,13 @@
 
 <br>
 
+## 🧭 Navigation
+1. <b>[🔗 Link](#-link)</b>
+2. <b>[📽 Demo](#-demo)</b>
+3. <b>[🌱 Origin](#-origin)</b>
+
+<br>
+
 ## 🔗 Link
 - [Download](https://github.com/Yoon-men/SD4LE/releases/latest/)
 - [Bug report](https://github.com/Yoon-men/SD4LE/issues)
