@@ -3,7 +3,7 @@ name: Keep Supabase Active
 on:
   workflow_dispatch:  # 수동 실행 트리거
   schedule:
-    - cron: '0 0 */7 * *'  # 7일마다 실행
+    - cron: '0 0 */6 * *'  # 6일마다 실행
 
 jobs:
   ping:
