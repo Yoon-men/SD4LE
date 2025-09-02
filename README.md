@@ -24,6 +24,8 @@
 - [Download](https://github.com/Yoon-men/SD4LE/releases/latest/)
 - [Bug report](https://github.com/Yoon-men/SD4LE/issues)
 
+<b>[⬆ Back to the navigation ⬆](#-navigation)</b>
+
 <br>
 
 ## 📽 Demo
@@ -37,9 +39,13 @@
   <img src="imgs/solve_the_problems.gif">
 </p>
 
+<b>[⬆ Back to the navigation ⬆](#-navigation)</b>
+
 <br>
 
 ## 🌱 Origin
 <p align="center">
   <img src="imgs/origin_of_card.gif">
 </p>
+
+<b>[⬆ Back to the navigation ⬆](#-navigation)</b>
